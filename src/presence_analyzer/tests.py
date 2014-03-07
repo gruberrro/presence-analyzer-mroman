@@ -13,7 +13,9 @@ from presence_analyzer import main, views, utils
 TEST_DATA_CSV = os.path.join(
     os.path.dirname(__file__), '..', '..', 'runtime', 'data', 'test_data.csv'
 )
-
+TEST_DATA_BAD_CSV = os.path.join(
+    os.path.dirname(__file__), '..', '..', 'runtime', 'data', 'test_data_bad.csv'
+)
 
 # pylint: disable=E1103
 class PresenceAnalyzerViewsTestCase(unittest.TestCase):
@@ -59,7 +61,7 @@ class PresenceAnalyzerUtilsTestCase(unittest.TestCase):
     Utility functions tests.
     """
 
-    def setUp(self):
+    def setUp(self): 
         """
         Before each test, set up a environment.
         """
@@ -83,6 +85,10 @@ class PresenceAnalyzerUtilsTestCase(unittest.TestCase):
         self.assertItemsEqual(data[10][sample_date].keys(), ['start', 'end'])
         self.assertEqual(data[10][sample_date]['start'],
                          datetime.time(9, 39, 5))
+        with self.assertRaises(ValueError):  #tu zmienione - pozniej usun
+            utils.get_data()                 #tu zmienione - pozniej usun
+        #main.app.config.update({'DATA_CSV': TEST_DATA_BAD_CSV})  # tu bylo ok
+        #utils.get_data()                                         # tu bylo ok 
 
 
 def suite():
