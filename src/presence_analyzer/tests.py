@@ -14,7 +14,7 @@ TEST_DATA_CSV = os.path.join(
     os.path.dirname(__file__), '..', '..', 'runtime', 'data', 'test_data.csv'
 )
 TEST_DATA_BAD_CSV = os.path.join(
-    os.path.dirname(__file__), '..', '..', 'runtime', 'data', 'test_data_bad.csv'
+    os.path.dirname(__file__), '..', '..', 'runtime', 'data', 'test_data_bad.csv' 
 )
 
 # pylint: disable=E1103
@@ -85,13 +85,39 @@ class PresenceAnalyzerUtilsTestCase(unittest.TestCase):
         self.assertItemsEqual(data[10][sample_date].keys(), ['start', 'end'])
         self.assertEqual(data[10][sample_date]['start'],
                          datetime.time(9, 39, 5))
-        with self.assertRaises(ValueError):  #tu zmienione - pozniej usun
-            utils.get_data()                 #tu zmienione - pozniej usun
+        #with self.assertRaises(ValueError):  #tu zmienione - pozniej usun
+        #    utils.get_data()                 #tu zmienione - pozniej usun
         #main.app.config.update({'DATA_CSV': TEST_DATA_BAD_CSV})  # tu bylo ok
         #utils.get_data()                                         # tu bylo ok 
+    def test_group_by_weekly(self):
+        items = []
+        result = utils.group_by_weekday(items)
+        expected_result = {0: [], 1: [], 2: [], 3: [], 4: [], 5: [], 6: []}
+        self.assertDictEqual(result, expected_result)
 
+    def test_seconds_since_midnight(self):
+        time = datetime.datetime.now().time()
+        expected_time_format = 253
+        result_time = utils.seconds_since_midnight(time)
+        self.assertEqual(type(expected_time_format), type(result_time))
 
-def suite():
+    def test_interval(self):
+        int_data = 233
+        t_start = datetime.datetime.now().time()
+        t_end = datetime.datetime.now().time()
+        inter_of_time = utils.interval(t_start, t_end)
+
+        self.assertEqual(type(int_data), type(inter_of_time))
+        self.assertLessEqual(t_start, t_end)
+
+    def test_mean(self):
+        float_data = 0.5245
+        strange_lst = [3,4,5,6,7,8]
+        empty_lst = []
+        self.assertEqual(0, utils.mean(empty_lst))
+        self.assertEqual(type(float_data), type(utils.mean(strange_lst)))
+
+    def suite():
     """
     Default test suite.
     """
