@@ -1,3 +1,4 @@
+ls
 # -*- coding: utf-8 -*-
 """
 Presence analyzer unit tests.
@@ -118,13 +119,13 @@ class PresenceAnalyzerUtilsTestCase(unittest.TestCase):
         self.assertEqual(type(float_data), type(utils.mean(strange_lst)))
 
     def suite():
-    """
-    Default test suite.
-    """
-    suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(PresenceAnalyzerViewsTestCase))
-    suite.addTest(unittest.makeSuite(PresenceAnalyzerUtilsTestCase))
-    return suite
+        """
+        Default test suite.
+        """
+        suite = unittest.TestSuite()
+        suite.addTest(unittest.makeSuite(PresenceAnalyzerViewsTestCase))
+        suite.addTest(unittest.makeSuite(PresenceAnalyzerUtilsTestCase))
+        return suite
 
 
 if __name__ == '__main__':
