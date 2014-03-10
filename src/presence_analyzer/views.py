@@ -73,7 +73,7 @@ def presence_weekday_view(user_id):
 @jsonify
 def presence_start_end_view(user_id):
     """
-    Returns total presence time of given user grouped by mean time of starting and ending job.
+    Returns time of given user grouped by mean start and end job.
     """
     data = get_data()
     if user_id not in data:
