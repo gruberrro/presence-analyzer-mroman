@@ -14,9 +14,6 @@ TEST_DATA_CSV = os.path.join(
     os.path.dirname(__file__), '..', '..', 'runtime', 'data', 'test_data.csv'
 )
 
-TEST_DATA_BAD_CSV = os.path.join(
-    os.path.dirname(__file__), '..', '..', 'runtime', 'data', 'test_data_bad.csv' 
-)
 
 # pylint: disable=E1103
 class PresenceAnalyzerViewsTestCase(unittest.TestCase):
@@ -86,34 +83,75 @@ class PresenceAnalyzerUtilsTestCase(unittest.TestCase):
         self.assertItemsEqual(data[10][sample_date].keys(), ['start', 'end'])
         self.assertEqual(data[10][sample_date]['start'],
                          datetime.time(9, 39, 5))
-    
+
     def test_group_by_weekly(self):
-        items = []
-        result = utils.group_by_weekday(items)
-        expected_result = {0: [], 1: [], 2: [], 3: [], 4: [], 5: [], 6: []}
-        self.assertDictEqual(result, expected_result)
+        empty_items = []
+        items = {
+            datetime.date(2013, 9, 11): {
+                'end': datetime.time(16, 15, 27),
+                'start': datetime.time(9, 13, 26)
+            },
+            datetime.date(2013, 9, 12): {
+                'end': datetime.time(16, 41, 25),
+                'start': datetime.time(10, 18, 36)
+            }}
+        result_1 = utils.group_by_weekday(items)
+        result_2 = utils.group_by_weekday(empty_items)
+
+        expected_result_1 = {
+            0: [],
+            1: [],
+            2: [25321],
+            3: [22969],
+            4: [],
+            5: [],
+            6: [],
+        }
+
+        expected_result_2 = {
+            0: [],
+            1: [],
+            2: [],
+            3: [],
+            4: [],
+            5: [],
+            6: [],
+        }
+
+        self.assertDictEqual(result_1, expected_result_1)
+        self.assertDictEqual(result_2, expected_result_2)
 
     def test_seconds_since_midnight(self):
         time = datetime.datetime.now().time()
         expected_time_format = 253
+        input_time_format = datetime.datetime(2014, 3, 11, 14, 26, 25, 230847)
+
         result_time = utils.seconds_since_midnight(time)
+        result_time_for_input = utils.seconds_since_midnight(input_time_format)
         self.assertEqual(type(expected_time_format), type(result_time))
+        self.assertEqual(result_time_for_input, 51985)
 
     def test_interval(self):
         int_data = 233
         t_start = datetime.datetime.now().time()
         t_end = datetime.datetime.now().time()
+
         inter_of_time = utils.interval(t_start, t_end)
+        input_time_1 = datetime.datetime(2014, 3, 11, 14, 26, 25, 230847)
+        input_time_2 = datetime.datetime(2014, 3, 11, 14, 29, 25, 230847)
+        result_time_for_input = utils.interval(input_time_1, input_time_2)
 
         self.assertEqual(type(int_data), type(inter_of_time))
         self.assertLessEqual(t_start, t_end)
+        self.assertEqual(result_time_for_input, 180)
 
     def test_mean(self):
         float_data = 0.5245
-        strange_lst = [3,4,5,6,7,8]
+        strange_lst = [3, 4, 5, 6, 7, 8]
         empty_lst = []
         self.assertEqual(0, utils.mean(empty_lst))
         self.assertEqual(type(float_data), type(utils.mean(strange_lst)))
+        self.assertEqual(utils.mean(strange_lst), 5.5)
 
     def suite():
         """
