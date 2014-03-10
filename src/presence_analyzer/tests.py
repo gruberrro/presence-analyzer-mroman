@@ -13,13 +13,10 @@ from presence_analyzer import main, views, utils
 TEST_DATA_CSV = os.path.join(
     os.path.dirname(__file__), '..', '..', 'runtime', 'data', 'test_data.csv'
 )
-<<<<<<< HEAD
 
-=======
 TEST_DATA_BAD_CSV = os.path.join(
     os.path.dirname(__file__), '..', '..', 'runtime', 'data', 'test_data_bad.csv' 
 )
->>>>>>> 4f752dd... [#1411] New 4 tests added
 
 # pylint: disable=E1103
 class PresenceAnalyzerViewsTestCase(unittest.TestCase):
@@ -89,15 +86,7 @@ class PresenceAnalyzerUtilsTestCase(unittest.TestCase):
         self.assertItemsEqual(data[10][sample_date].keys(), ['start', 'end'])
         self.assertEqual(data[10][sample_date]['start'],
                          datetime.time(9, 39, 5))
-<<<<<<< HEAD
-
-
-def suite():
-=======
-        #with self.assertRaises(ValueError):  #tu zmienione - pozniej usun
-        #    utils.get_data()                 #tu zmienione - pozniej usun
-        #main.app.config.update({'DATA_CSV': TEST_DATA_BAD_CSV})  # tu bylo ok
-        #utils.get_data()                                         # tu bylo ok 
+    
     def test_group_by_weekly(self):
         items = []
         result = utils.group_by_weekday(items)
@@ -127,14 +116,13 @@ def suite():
         self.assertEqual(type(float_data), type(utils.mean(strange_lst)))
 
     def suite():
->>>>>>> 4f752dd... [#1411] New 4 tests added
-    """
-    Default test suite.
-    """
-    suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(PresenceAnalyzerViewsTestCase))
-    suite.addTest(unittest.makeSuite(PresenceAnalyzerUtilsTestCase))
-    return suite
+        """
+        Default test suite.
+        """
+        suite = unittest.TestSuite()
+        suite.addTest(unittest.makeSuite(PresenceAnalyzerViewsTestCase))
+        suite.addTest(unittest.makeSuite(PresenceAnalyzerUtilsTestCase))
+        return suite
 
 
 if __name__ == '__main__':
