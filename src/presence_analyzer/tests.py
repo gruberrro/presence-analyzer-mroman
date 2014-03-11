@@ -90,7 +90,15 @@ class PresenceAnalyzerUtilsTestCase(unittest.TestCase):
     def test_group_by_weekly(self):
         items = []
         result = utils.group_by_weekday(items)
-        expected_result = {0: [], 1: [], 2: [], 3: [], 4: [], 5: [], 6: []}
+        expected_result = {
+        0: [],
+        1: [],
+        2: [],
+        3: [],
+        4: [],
+        5: [],
+        6: [],
+        }
         self.assertDictEqual(result, expected_result)
 
     def test_seconds_since_midnight(self):
@@ -110,7 +118,7 @@ class PresenceAnalyzerUtilsTestCase(unittest.TestCase):
 
     def test_mean(self):
         float_data = 0.5245
-        strange_lst = [3,4,5,6,7,8]
+        strange_lst = [3, 4, 5, 6, 7, 8]
         empty_lst = []
         self.assertEqual(0, utils.mean(empty_lst))
         self.assertEqual(type(float_data), type(utils.mean(strange_lst)))
