@@ -74,7 +74,7 @@ class PresenceAnalyzerViewsTestCase(unittest.TestCase):
 
         self.assertEqual(data, expected_result)
 
-    def test_mean_time_weekday_view_empty_lst(self):
+    def test_mean_t_week_view_emp_lst(self):
         """
         Test mean time in weekday review for empty list
         """
@@ -104,7 +104,7 @@ class PresenceAnalyzerViewsTestCase(unittest.TestCase):
         ]
         self.assertEqual(data, exp_result)
 
-    def test_presence_weekday_view_empty_lst(self):
+    def test_presence_week_view_emp_lst(self):
         """
         Test mean presence weekday review for empty list
         """
@@ -145,6 +145,9 @@ class PresenceAnalyzerUtilsTestCase(unittest.TestCase):
                          datetime.time(9, 39, 5))
 
     def test_group_by_weekly(self):
+        """
+        Test group_by_weekday function
+        """
         empty_items = []
         items = {
             datetime.date(2013, 9, 11): {
@@ -182,6 +185,9 @@ class PresenceAnalyzerUtilsTestCase(unittest.TestCase):
         self.assertDictEqual(result_2, expected_result_2)
 
     def test_seconds_since_midnight(self):
+        """
+        Test seconds_since_midnight function
+        """
         time = datetime.datetime.now().time()
         expected_time_format = 253
         input_time_format = datetime.datetime(2014, 3, 11, 14, 26, 25, 230847)
@@ -192,6 +198,9 @@ class PresenceAnalyzerUtilsTestCase(unittest.TestCase):
         self.assertEqual(result_time_for_input, 51985)
 
     def test_interval(self):
+        """
+        Test interval function
+        """
         int_data = 233
         t_start = datetime.datetime.now().time()
         t_end = datetime.datetime.now().time()
@@ -206,6 +215,9 @@ class PresenceAnalyzerUtilsTestCase(unittest.TestCase):
         self.assertEqual(result_time_for_input, 180)
 
     def test_mean(self):
+        """
+        Test mean function
+        """
         float_data = 0.5245
         strange_lst = [3, 4, 5, 6, 7, 8]
         empty_lst = []
