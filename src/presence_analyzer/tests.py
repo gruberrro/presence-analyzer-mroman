@@ -53,6 +53,66 @@ class PresenceAnalyzerViewsTestCase(unittest.TestCase):
         self.assertEqual(len(data), 2)
         self.assertDictEqual(data[0], {u'user_id': 10, u'name': u'User 10'})
 
+    def test_mean_time_weekday_view(self):
+        """
+        Test mean time in weekday review
+        """
+        resp = self.client.get('/api/v1/mean_time_weekday/11')
+        data = json.loads(resp.data)
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(resp.content_type, 'application/json')
+
+        expected_result = [
+            [u'Mon', 24123.0],
+            [u'Tue', 16564.0],
+            [u'Wed', 25321.0],
+            [u'Thu', 22984.0],
+            [u'Fri', 6426.0],
+            [u'Sat', 0],
+            [u'Sun', 0]
+        ]
+
+        self.assertEqual(data, expected_result)
+
+    def test_mean_time_weekday_view_empty_lst(self):
+        """
+        Test mean time in weekday review for empty list
+        """
+        resp = self.client.get('/api/v1/mean_time_weekday/199')
+        data = json.loads(resp.data)
+        empty_lst = []
+        self.assertEqual(data, empty_lst)
+
+    def test_presence_weekday_view(self):
+        """
+        Test presence time of given user grouped by weekday.
+        """
+        resp = self.client.get('/api/v1/presence_weekday/11')
+        data = json.loads(resp.data)
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(resp.content_type, 'application/json')
+
+        exp_result = [
+            [u'Weekday', u'Presence (s)'],
+            [u'Mon', 24123],
+            [u'Tue', 16564],
+            [u'Wed', 25321],
+            [u'Thu', 45968],
+            [u'Fri', 6426],
+            [u'Sat', 0],
+            [u'Sun', 0],
+        ]
+        self.assertEqual(data, exp_result)
+
+    def test_presence_weekday_view_empty_lst(self):
+        """
+        Test mean presence weekday review for empty list
+        """
+        resp = self.client.get('/api/v1/presence_weekday/199')
+        data = json.loads(resp.data)
+        empty_lst = []
+        self.assertEqual(data, empty_lst)
+
 
 class PresenceAnalyzerUtilsTestCase(unittest.TestCase):
     """
