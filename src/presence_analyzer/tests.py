@@ -188,29 +188,20 @@ class PresenceAnalyzerUtilsTestCase(unittest.TestCase):
         """
         Test seconds_since_midnight function
         """
-        time = datetime.datetime.now().time()
-        expected_time_format = 253
         input_time_format = datetime.datetime(2014, 3, 11, 14, 26, 25, 230847)
-
-        result_time = utils.seconds_since_midnight(time)
         result_time_for_input = utils.seconds_since_midnight(input_time_format)
-        self.assertEqual(type(expected_time_format), type(result_time))
         self.assertEqual(result_time_for_input, 51985)
 
     def test_interval(self):
         """
         Test interval function
         """
-        int_data = 233
         t_start = datetime.datetime.now().time()
         t_end = datetime.datetime.now().time()
-
-        inter_of_time = utils.interval(t_start, t_end)
         input_time_1 = datetime.datetime(2014, 3, 11, 14, 26, 25, 230847)
         input_time_2 = datetime.datetime(2014, 3, 11, 14, 29, 25, 230847)
         result_time_for_input = utils.interval(input_time_1, input_time_2)
 
-        self.assertEqual(type(int_data), type(inter_of_time))
         self.assertLessEqual(t_start, t_end)
         self.assertEqual(result_time_for_input, 180)
 
@@ -218,11 +209,9 @@ class PresenceAnalyzerUtilsTestCase(unittest.TestCase):
         """
         Test mean function
         """
-        float_data = 0.5245
         strange_lst = [3, 4, 5, 6, 7, 8]
         empty_lst = []
         self.assertEqual(0, utils.mean(empty_lst))
-        self.assertEqual(type(float_data), type(utils.mean(strange_lst)))
         self.assertEqual(utils.mean(strange_lst), 5.5)
 
     def suite():
