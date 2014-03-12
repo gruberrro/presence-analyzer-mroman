@@ -7,7 +7,7 @@ import calendar
 from flask import redirect
 
 from presence_analyzer.main import app
-from presence_analyzer.utils import jsonify, get_data, mean, group_by_weekday
+from presence_analyzer.utils import jsonify, get_data, mean, group_by_weekday, group_times_by_weekday
 
 import logging
 log = logging.getLogger(__name__)  # pylint: disable-msg=C0103
@@ -44,8 +44,12 @@ def mean_time_weekday_view(user_id):
         return []
 
     weekdays = group_by_weekday(data[user_id])
-    result = [(calendar.day_abbr[weekday], mean(intervals))
-              for weekday, intervals in weekdays.items()]
+    result = [
+        (
+            calendar.day_abbr[weekday], mean(intervals)
+        )
+        for weekday, intervals in weekdays.items()
+    ]
 
     return result
 
@@ -62,8 +66,12 @@ def presence_weekday_view(user_id):
         return []
 
     weekdays = group_by_weekday(data[user_id])
-    result = [(calendar.day_abbr[weekday], sum(intervals))
-              for weekday, intervals in weekdays.items()]
+    result = [
+        (
+            calendar.day_abbr[weekday], sum(intervals)
+        )
+        for weekday, intervals in weekdays.items()
+    ]
 
     result.insert(0, ('Weekday', 'Presence (s)'))
     return result
@@ -80,9 +88,13 @@ def presence_start_end_view(user_id):
         log.debug('User %s not found!', user_id)
         return []
 
-    weekdays = group_by_weekday(data[user_id])
-    result = [(calendar.day_abbr[weekday], mean(intervals))
-              for weekday, intervals in weekdays.items()]
+    weekdays = group_times_by_weekday(data[user_id])
+    result = [(
+            calendar.day_abbr[weekday],
+            mean(times['start']),
+            mean(times['end']),
 
-    # result.insert(0, ('Weekday', 'Presence (s)'))
+        )
+        for weekday, times in weekdays.items()
+    ]
     return result
