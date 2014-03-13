@@ -214,14 +214,15 @@ class PresenceAnalyzerUtilsTestCase(unittest.TestCase):
         self.assertEqual(0, utils.mean(empty_lst))
         self.assertEqual(utils.mean(strange_lst), 5.5)
 
-    def suite():
-        """
-        Default test suite.
-        """
-        suite = unittest.TestSuite()
-        suite.addTest(unittest.makeSuite(PresenceAnalyzerViewsTestCase))
-        suite.addTest(unittest.makeSuite(PresenceAnalyzerUtilsTestCase))
-        return suite
+
+def suite():
+    """
+    Default test suite.
+    """
+    suite = unittest.TestSuite()
+    suite.addTest(unittest.makeSuite(PresenceAnalyzerViewsTestCase))
+    suite.addTest(unittest.makeSuite(PresenceAnalyzerUtilsTestCase))
+    return suite
 
 
 if __name__ == '__main__':
