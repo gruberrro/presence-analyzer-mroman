@@ -1,3 +1,5 @@
+google.load("visualization", "1", {packages:["corechart"], 'language': 'en'});
+
 (function($) {
     $(document).ready(function(){
         var loading = $('#loading');
