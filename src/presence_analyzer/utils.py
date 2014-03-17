@@ -5,8 +5,12 @@ Helper functions used in views.
 
 import csv
 from json import dumps
+
 from functools import wraps
+
 from datetime import datetime
+
+from lxml import etree
 
 from flask import Response
 
@@ -109,3 +113,14 @@ def mean(items):
     Calculates arithmetic mean. Returns zero for empty lists.
     """
     return float(sum(items)) / len(items) if len(items) > 0 else 0
+
+def xml_parser():
+    """
+    Parser get data from users.xml file
+    """
+    # tree = etree.parse("runtime/data/users.xml")
+    with open('runtime/data/users.xml', 'r') as xmlfile:
+        tree = etree.parse(xmlfile)
+        root = tree.getroot()
+    import ipdb; ipdb.set_trace()
+

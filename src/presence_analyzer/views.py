@@ -125,3 +125,17 @@ def presence_start_end_view(user_id):
         for weekday, times in weekdays.items()
     ]
     return result
+
+
+@app.route('/api/v1/presence_xml_parser/<int:user_id>', methods=['GET'])
+@jsonify
+def xml_parser_view(user_id):
+    """
+    Return something nice
+    """
+    data = utils.xml_parser()
+
+    if user_id not in data:
+        log.debug('User %s not found!', user_id)
+        return []
+    weekdays = utils.group_times_by_weekday(data[user_id])
