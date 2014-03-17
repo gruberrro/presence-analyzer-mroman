@@ -40,7 +40,7 @@ class PresenceAnalyzerViewsTestCase(unittest.TestCase):
         """
         resp = self.client.get('/')
         self.assertEqual(resp.status_code, 200)
-        
+
     def test_api_users(self):
         """
         Test users listing.

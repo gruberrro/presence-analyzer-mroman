@@ -5,9 +5,9 @@ Defines views.
 
 import calendar
 from flask import redirect, render_template, redirect, url_for
-
 from presence_analyzer.main import app
-from presence_analyzer.utils import jsonify, get_data, mean, group_by_weekday, group_times_by_weekday
+from presence_analyzer.utils import jsonify
+from presence_analyzer import utils
 
 import logging
 log = logging.getLogger(__name__)  # pylint: disable-msg=C0103
@@ -51,7 +51,7 @@ def users_view():
     """
     Users listing for dropdown.
     """
-    data = get_data()
+    data = utils.get_data()
     return [{'user_id': i, 'name': 'User {0}'.format(str(i))}
             for i in data.keys()]
 
@@ -62,15 +62,15 @@ def mean_time_weekday_view(user_id):
     """
     Returns mean presence time of given user grouped by weekday.
     """
-    data = get_data()
+    data = utils.get_data()
     if user_id not in data:
         log.debug('User %s not found!', user_id)
         return []
 
-    weekdays = group_by_weekday(data[user_id])
+    weekdays = utils.group_by_weekday(data[user_id])
     result = [
         (
-            calendar.day_abbr[weekday], mean(intervals)
+            calendar.day_abbr[weekday], utils.mean(intervals)
         )
         for weekday, intervals in weekdays.items()
     ]
@@ -84,12 +84,12 @@ def presence_weekday_view(user_id):
     """
     Returns total presence time of given user grouped by weekday.
     """
-    data = get_data()
+    data = utils.get_data()
     if user_id not in data:
         log.debug('User %s not found!', user_id)
         return []
 
-    weekdays = group_by_weekday(data[user_id])
+    weekdays = utils.group_by_weekday(data[user_id])
     result = [
         (
             calendar.day_abbr[weekday], sum(intervals)
@@ -107,17 +107,17 @@ def presence_start_end_view(user_id):
     """
     Returns time of given user grouped by mean start and end job.
     """
-    data = get_data()
+    data = utils.get_data()
     if user_id not in data:
         log.debug('User %s not found!', user_id)
         return []
 
-    weekdays = group_times_by_weekday(data[user_id])
+    weekdays = utils.group_times_by_weekday(data[user_id])
     result = [
         (
             calendar.day_abbr[weekday],
-            mean(times['start']),
-            mean(times['end']),
+            utils.mean(times['start']),
+            utils.mean(times['end']),
         )
         for weekday, times in weekdays.items()
     ]
