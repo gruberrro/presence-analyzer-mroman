@@ -26,7 +26,7 @@ def presence_weekday():
     """
     Redirects to presence weekday page.
     """
-    return render_template('presence_weekday.html')    
+    return render_template('presence_weekday.html')
 
 
 @app.route('/mean-time-weekday')
