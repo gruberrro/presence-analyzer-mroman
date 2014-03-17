@@ -122,5 +122,6 @@ def xml_parser():
     with open('runtime/data/users.xml', 'r') as xmlfile:
         tree = etree.parse(xmlfile)
         root = tree.getroot()
-    import ipdb; ipdb.set_trace()
+    return root
+    
 

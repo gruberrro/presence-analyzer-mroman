@@ -110,6 +110,16 @@ def presence_start_end_view(user_id):
     """
     Returns time of given user grouped by mean start and end job.
     """
+    import ipdb; ipdb.set_trace()
+    data = utils.xml_parser()
+    
+    if user_id not in data:
+        log.debug('User %s not found!', user_id)
+        return []
+    weekdays = utils.group_times_by_weekday(data[user_id])
+
+
+
     data = utils.get_data()
     if user_id not in data:
         log.debug('User %s not found!', user_id)
@@ -134,7 +144,7 @@ def xml_parser_view(user_id):
     Return something nice
     """
     data = utils.xml_parser()
-
+    import ipdb; ipdb.set_trace()
     if user_id not in data:
         log.debug('User %s not found!', user_id)
         return []
