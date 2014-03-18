@@ -17,7 +17,10 @@ google.load("visualization", "1", {packages:["corechart", "timeline"], 'language
             var selected_user = $("#user_id").val();
             var chart_div = $('#chart_div');
             if(selected_user) {
-                console.log(users[selected_user]['avatar'])
+                source = (users[selected_user]['avatar']);
+                debugger; 
+                var newImage = new Image();
+                newImage.src = 'source';
                 loading.show();
                 chart_div.hide();
                 $.getJSON("/api/v1/presence_start_end/"+selected_user, function(result) {
