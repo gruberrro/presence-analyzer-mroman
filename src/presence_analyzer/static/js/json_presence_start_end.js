@@ -3,11 +3,13 @@ google.load("visualization", "1", {packages:["corechart", "timeline"], 'language
 (function($) {
     $(document).ready(function(){
         var loading = $('#loading');
-        $.getJSON("/api/v1/users", function(result) {
+        var users = []
+        $.getJSON("/api/v2/users", function(result) {
             var dropdown = $("#user_id");
             $.each(result, function(item) {
-                dropdown.append($("<option />").val(this.user_id).text(this.name));
+                dropdown.append($("<option />").val(item).text(this.name));
             });
+            users = result;
             dropdown.show();
             loading.hide();
         });
@@ -15,6 +17,7 @@ google.load("visualization", "1", {packages:["corechart", "timeline"], 'language
             var selected_user = $("#user_id").val();
             var chart_div = $('#chart_div');
             if(selected_user) {
+                console.log(users[selected_user]['avatar'])
                 loading.show();
                 chart_div.hide();
                 $.getJSON("/api/v1/presence_start_end/"+selected_user, function(result) {

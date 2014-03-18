@@ -55,9 +55,11 @@ def users_view():
     Users listing for dropdown.
     """
     data = utils.get_data()
+    
     return [{'user_id': i, 'name': 'User {0}'.format(str(i))}
             for i in data.keys()]
 
+    
 
 @app.route('/api/v1/mean_time_weekday/<int:user_id>', methods=['GET'])
 @jsonify
@@ -110,17 +112,11 @@ def presence_start_end_view(user_id):
     """
     Returns time of given user grouped by mean start and end job.
     """
-    import ipdb; ipdb.set_trace()
-    data = utils.xml_parser()
     
-    if user_id not in data:
-        log.debug('User %s not found!', user_id)
-        return []
-    weekdays = utils.group_times_by_weekday(data[user_id])
-
-
-
+    # data = utils.xml_parser()
+    # import ipdb; ipdb.set_trace() 
     data = utils.get_data()
+
     if user_id not in data:
         log.debug('User %s not found!', user_id)
         return []
@@ -137,15 +133,18 @@ def presence_start_end_view(user_id):
     return result
 
 
-@app.route('/api/v1/presence_xml_parser/<int:user_id>', methods=['GET'])
+@app.route('/api/v2/users', methods=['GET'])
 @jsonify
-def xml_parser_view(user_id):
+def users_view_names():
     """
-    Return something nice
+    Users listing for dropdown.
     """
-    data = utils.xml_parser()
-    import ipdb; ipdb.set_trace()
-    if user_id not in data:
-        log.debug('User %s not found!', user_id)
-        return []
-    weekdays = utils.group_times_by_weekday(data[user_id])
+    data_xml = utils.xml_parser()
+    lst = {}
+
+    for i in data_xml:
+        lst[i['user_id']] = {
+            'name': i['name'],
+            'avatar': i['avatar']
+        }
+    return lst

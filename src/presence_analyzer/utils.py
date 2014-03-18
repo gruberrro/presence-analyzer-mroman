@@ -117,11 +117,32 @@ def mean(items):
 def xml_parser():
     """
     Parser get data from users.xml file
+
+    Structure:
+    [{
+            'user_id': 10,
+            'name': user_name,
+            'avatar': url+avatar, 
+            
+    }]
+            
     """
-    # tree = etree.parse("runtime/data/users.xml")
+    data = []
     with open('runtime/data/users.xml', 'r') as xmlfile:
         tree = etree.parse(xmlfile)
-        root = tree.getroot()
-    return root
-    
+        server = tree.find('./server')
+        protocol = server.find('./protocol').text
+        host = server.find('./host').text
+        additional = '://'
+        url=protocol+additional+host
 
+        for i in tree.findall('./users/user'):
+            user_id = i.attrib['id']
+            user_name = i.find('./name').text
+            avatar = i.find('./avatar').text
+            data.append({
+                'user_id': user_id,
+                'name': user_name,
+                'avatar': url+avatar,
+                })           
+    return data
