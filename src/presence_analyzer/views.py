@@ -2,6 +2,7 @@
 """
 Defines views.
 """
+import logging
 
 import calendar
 
@@ -10,8 +11,6 @@ from flask import redirect, render_template, redirect, url_for
 from presence_analyzer.main import app
 from presence_analyzer.utils import jsonify
 from presence_analyzer import utils
-
-import logging
 
 log = logging.getLogger(__name__)  # pylint: disable-msg=C0103
 
@@ -55,10 +54,9 @@ def users_view():
     Users listing for dropdown.
     """
     data = utils.get_data()
-    
-    return [{'user_id': i, 'name': 'User {0}'.format(str(i))}
-            for i in data.keys()]
 
+    return [{'user_id': i, 'name': 'User {0}'.format(i)}
+            for i in data]
     
 
 @app.route('/api/v1/mean_time_weekday/<int:user_id>', methods=['GET'])
