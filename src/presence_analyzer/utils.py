@@ -16,6 +16,8 @@ from flask import Response
 
 from presence_analyzer.main import app
 
+import urllib
+
 import logging
 log = logging.getLogger(__name__)  # pylint: disable-msg=C0103
 
@@ -146,3 +148,14 @@ def xml_parser():
                 'avatar': url+avatar,
                 })           
     return data
+
+def download_and_write_xml():
+    """
+    This script download and write a xml file from url
+    """
+    webFile=urllib.urlopen("http://sargo.bolt.stxnext.pl/users.xml")
+    print "Downloading file . . . "
+    localFile = open('runtime/data/users.xml','w')
+    localFile.write(webFile.read())
+    webFile.close()
+    localFile.close()
