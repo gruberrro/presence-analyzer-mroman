@@ -142,6 +142,7 @@ def users_view_names():
 
     for i in data_xml:
         lst[i['user_id']] = {
+            'user_id': i['user_id'],
             'name': i['name'],
             'avatar': i['avatar']
         }

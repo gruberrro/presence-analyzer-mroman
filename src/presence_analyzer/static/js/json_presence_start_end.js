@@ -3,7 +3,7 @@ google.load("visualization", "1", {packages:["corechart", "timeline"], 'language
 (function($) {
     $(document).ready(function(){
         var loading = $('#loading');
-        var users = []
+        var users = [];
         $.getJSON("/api/v2/users", function(result) {
             var dropdown = $("#user_id");
             $.each(result, function(item) {
@@ -17,10 +17,8 @@ google.load("visualization", "1", {packages:["corechart", "timeline"], 'language
             var selected_user = $("#user_id").val();
             var chart_div = $('#chart_div');
             if(selected_user) {
-                source = (users[selected_user]['avatar']);
-                debugger; 
-                var newImage = new Image();
-                newImage.src = 'source';
+                var newImage = (users[selected_user]['avatar']);             //                             //
+                $('#avatar').children('img').attr('src', newImage);      //
                 loading.show();
                 chart_div.hide();
                 $.getJSON("/api/v1/presence_start_end/"+selected_user, function(result) {
@@ -45,7 +43,7 @@ google.load("visualization", "1", {packages:["corechart", "timeline"], 'language
                     chart.draw(data, options);
                 });
 
-                }
-            });
+            }
         });
+    });
 })(jQuery);
