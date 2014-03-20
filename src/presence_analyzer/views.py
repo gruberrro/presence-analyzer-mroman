@@ -135,12 +135,4 @@ def users_view_names():
     Users listing for dropdown.
     """
     data_xml = utils.xml_parser()
-    data = {}
-
-    for user in data_xml:
-        data[user['user_id']] = {
-            'user_id': user['user_id'],
-            'name': user['name'],
-            'avatar': user['avatar']
-        }
-    return data
+    return data_xml

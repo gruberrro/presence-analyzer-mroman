@@ -134,11 +134,11 @@ def xml_parser():
         host = server.find('./host').text
         additional = '://'
         url = protocol+additional+host
-        return [{
-            'user_id': user.attrib['id'],
-            'name': user.find('./name').text,
-            'avatar': url+user.find('./avatar').text}
-            for user in tree.findall('./users/user')]
+        return {
+            user.attrib['id']: {
+                        'name': user.find('./name').text,
+                        'avatar': url+user.find('./avatar').text}
+            for user in tree.findall('./users/user')}
 
 
 def download_and_write_xml():
