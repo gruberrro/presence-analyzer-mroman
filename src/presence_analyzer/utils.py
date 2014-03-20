@@ -116,18 +116,16 @@ def mean(items):
     """
     return float(sum(items)) / len(items) if len(items) > 0 else 0
 
+
 def xml_parser():
     """
     Parser get data from users.xml file
-
     Structure:
     [{
             'user_id': 10,
             'name': user_name,
-            'avatar': url+avatar, 
-            
+            'avatar': url+avatar,
     }]
-            
     """
     data = []
     with open('runtime/data/users.xml', 'r') as xmlfile:
@@ -136,7 +134,7 @@ def xml_parser():
         protocol = server.find('./protocol').text
         host = server.find('./host').text
         additional = '://'
-        url=protocol+additional+host
+        url = protocol+additional+host
 
         for i in tree.findall('./users/user'):
             user_id = i.attrib['id']
@@ -146,17 +144,18 @@ def xml_parser():
                 'user_id': user_id,
                 'name': user_name,
                 'avatar': url+avatar,
-                })           
+                })
     return data
+
 
 def download_and_write_xml():
     """
     This script download and write a xml file from url
     """
-    URL=app.config['XML_URL']
-    webFile=urllib.urlopen("URL")
+    URL = app.config['XML_URL']
+    webFile = urllib.urlopen("URL")
     print "Downloading file . . . "
-    localFile = open.app.config('USER_DATA_XML','w')
+    localFile = open.app.config('USER_DATA_XML', 'w')
     localFile.write(webFile.read())
     webFile.close()
     localFile.close()
