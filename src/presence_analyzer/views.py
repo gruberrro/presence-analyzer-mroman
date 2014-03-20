@@ -55,8 +55,8 @@ def users_view():
     """
     data = utils.get_data()
 
-    return [{'user_id': i, 'name': 'User {0}'.format(i)}
-            for i in data]
+    return [{'user_id': user, 'name': u'User {0}'.format(user)}
+            for user in data]
 
 
 @app.route('/api/v1/mean_time_weekday/<int:user_id>', methods=['GET'])
@@ -135,12 +135,12 @@ def users_view_names():
     Users listing for dropdown.
     """
     data_xml = utils.xml_parser()
-    lst = {}
+    data = {}
 
-    for i in data_xml:
-        lst[i['user_id']] = {
-            'user_id': i['user_id'],
-            'name': i['name'],
-            'avatar': i['avatar']
+    for user in data_xml:
+        data[user['user_id']] = {
+            'user_id': user['user_id'],
+            'name': user['name'],
+            'avatar': user['avatar']
         }
-    return lst
+    return data

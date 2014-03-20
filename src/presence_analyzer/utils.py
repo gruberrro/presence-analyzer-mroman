@@ -127,7 +127,6 @@ def xml_parser():
             'avatar': url+avatar,
     }]
     """
-    data = []
     with open('runtime/data/users.xml', 'r') as xmlfile:
         tree = etree.parse(xmlfile)
         server = tree.find('./server')
@@ -135,17 +134,11 @@ def xml_parser():
         host = server.find('./host').text
         additional = '://'
         url = protocol+additional+host
-
-        for i in tree.findall('./users/user'):
-            user_id = i.attrib['id']
-            user_name = i.find('./name').text
-            avatar = i.find('./avatar').text
-            data.append({
-                'user_id': user_id,
-                'name': user_name,
-                'avatar': url+avatar,
-                })
-    return data
+        return [{
+            'user_id': user.attrib['id'],
+            'name': user.find('./name').text,
+            'avatar': url+user.find('./avatar').text}
+            for user in tree.findall('./users/user')] 
 
 
 def download_and_write_xml():
