@@ -136,8 +136,8 @@ def xml_parser():
         url = protocol+additional+host
         return {
             user.attrib['id']: {
-                        'name': user.find('./name').text,
-                        'avatar': url+user.find('./avatar').text}
+                'name': user.find('./name').text,
+                'avatar': url+user.find('./avatar').text}
             for user in tree.findall('./users/user')}
 
 
