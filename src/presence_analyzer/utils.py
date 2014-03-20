@@ -153,9 +153,10 @@ def download_and_write_xml():
     """
     This script download and write a xml file from url
     """
-    webFile=urllib.urlopen("http://sargo.bolt.stxnext.pl/users.xml")
+    URL=app.config['XML_URL']
+    webFile=urllib.urlopen("URL")
     print "Downloading file . . . "
-    localFile = open('runtime/data/users.xml','w')
+    localFile = open.app.config('USER_DATA_XML','w')
     localFile.write(webFile.read())
     webFile.close()
     localFile.close()
