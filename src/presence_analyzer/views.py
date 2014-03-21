@@ -134,5 +134,5 @@ def users_view_names():
     """
     Users listing for dropdown.
     """
-    data_xml = utils.xml_parser()
+    data_xml = utils.get_data_from_xml()
     return data_xml

@@ -117,14 +117,14 @@ def mean(items):
     return float(sum(items)) / len(items) if len(items) > 0 else 0
 
 
-def xml_parser():
+def get_data_from_xml():
     """
     Parser get data from users.xml file
     Structure:
     [{
-            'user_id': 10,
+            10: {
             'name': user_name,
-            'avatar': url+avatar,
+            'avatar': url+avatar}
     }]
     """
     with open('runtime/data/users.xml', 'r') as xmlfile:
