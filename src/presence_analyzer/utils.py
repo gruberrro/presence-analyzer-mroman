@@ -4,6 +4,7 @@ Helper functions used in views.
 """
 
 import csv
+
 from json import dumps
 
 from functools import wraps
@@ -45,11 +46,11 @@ def cache(time_in_sek):
     def inner_cache(function):
         lock = threading.Lock()
         function.inner_cache = {}
+
         def decorator(*args, **kwargs):
             key = repr(args) + repr(kwargs)
-            import ipdb; ipdb.set_trace()
             with lock:
-                if function.inner_cache.has_key(key):
+                if key in function.inner_cache:
                     time_result = time.time() - function.inner_cache['time']
                     if time_result > time_in_sek:
                         result = function(*args, **kwargs)
