@@ -22,6 +22,8 @@ import threading
 
 import logging
 
+import time
+
 log = logging.getLogger(__name__)  # pylint: disable-msg=C0103
 
 
@@ -41,14 +43,26 @@ def cache(time_in_sek):
     This function blocks get_data if CSV files are the same
     """
     def inner_cache(function):
+        lock = threading.Lock()
         function.inner_cache = {}
         def decorator(*args, **kwargs):
-            if function.inner_cache.has_key(args):
-                return function.inner_cache[args]
-            else:
-                result = function(*args)
-                function.inner_cache[args] = result
-                return result
+            key = repr(args) + repr(kwargs)
+            import ipdb; ipdb.set_trace()
+            with lock:
+                if function.inner_cache.has_key(key):
+                    time_result = time.time() - function.inner_cache['time']
+                    if time_result > time_in_sek:
+                        result = function(*args, **kwargs)
+                        function.inner_cache[key] = result
+                        return result
+                    else:
+                        return function.inner_cache[key]
+                else:
+                    result = function(*args, **kwargs)
+                    function.inner_cache[key] = result
+                    function.inner_cache['time'] = time.time()
+                    return result
+
         return decorator
     return inner_cache
 
