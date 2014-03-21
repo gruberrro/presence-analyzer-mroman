@@ -36,12 +36,22 @@ def jsonify(function):
     return inner
 
 
-def cache():
+def cache(time_in_sek):
     """
     This function blocks get_data if CSV files are the same
     """
+    def inner_cache(function):
+        function.inner_cache = {}
+        def decorator(*args, **kwargs):
+            if function.inner_cache.has_key(args):
+                return function.inner_cache[args]
+            else:
+                result = function(*args)
+                function.inner_cache[args] = result
+                return result
+        return decorator
+    return inner_cache
 
-    return 
 
 @cache(600)
 def get_data():
