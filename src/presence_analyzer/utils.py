@@ -5,12 +5,18 @@ Helper functions used in views.
 
 import csv
 from json import dumps
+
 from functools import wraps
+
 from datetime import datetime
+
+from lxml import etree
 
 from flask import Response
 
 from presence_analyzer.main import app
+
+import urllib
 
 import logging
 log = logging.getLogger(__name__)  # pylint: disable-msg=C0103
@@ -109,3 +115,40 @@ def mean(items):
     Calculates arithmetic mean. Returns zero for empty lists.
     """
     return float(sum(items)) / len(items) if len(items) > 0 else 0
+
+
+def get_data_from_xml():
+    """
+    Parser get data from users.xml file
+    Structure:
+    [{
+            10: {
+            'name': user_name,
+            'avatar': url+avatar}
+    }]
+    """
+    with open('runtime/data/users.xml', 'r') as xmlfile:
+        tree = etree.parse(xmlfile)
+        server = tree.find('./server')
+        protocol = server.find('./protocol').text
+        host = server.find('./host').text
+        additional = '://'
+        url = protocol+additional+host
+        return {
+            user.attrib['id']: {
+                'name': user.find('./name').text,
+                'avatar': url+user.find('./avatar').text}
+            for user in tree.findall('./users/user')}
+
+
+def download_and_write_xml():
+    """
+    This script download and write a xml file from url
+    """
+    URL = app.config['XML_URL']
+    webFile = urllib.urlopen("URL")
+    print "Downloading file . . . "
+    localFile = open.app.config('USER_DATA_XML', 'w')
+    localFile.write(webFile.read())
+    webFile.close()
+    localFile.close()

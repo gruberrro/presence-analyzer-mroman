@@ -54,8 +54,9 @@ def users_view():
     Users listing for dropdown.
     """
     data = utils.get_data()
-    return [{'user_id': i, 'name': 'User {0}'.format(i)}
-            for i in data]
+
+    return [{'user_id': user, 'name': u'User {0}'.format(user)}
+            for user in data]
 
 
 @app.route('/api/v1/mean_time_weekday/<int:user_id>', methods=['GET'])
@@ -110,6 +111,7 @@ def presence_start_end_view(user_id):
     Returns time of given user grouped by mean start and end job.
     """
     data = utils.get_data()
+
     if user_id not in data:
         log.debug('User %s not found!', user_id)
         return []
@@ -124,3 +126,13 @@ def presence_start_end_view(user_id):
         for weekday, times in weekdays.items()
     ]
     return result
+
+
+@app.route('/api/v2/users', methods=['GET'])
+@jsonify
+def users_view_names():
+    """
+    Users listing for dropdown.
+    """
+    data_xml = utils.get_data_from_xml()
+    return data_xml

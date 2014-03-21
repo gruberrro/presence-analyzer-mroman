@@ -7,11 +7,13 @@ function parseInterval(value) {
 (function($) {
     $(document).ready(function(){
         var loading = $('#loading');
-        $.getJSON("/api/v1/users", function(result) {
+        var users;
+        $.getJSON("/api/v2/users", function(result) {
             var dropdown = $("#user_id");
             $.each(result, function(item) {
-                dropdown.append($("<option />").val(this.user_id).text(this.name));
+                dropdown.append($("<option />").val(item).text(this.name));
             });
+            users = result;
             dropdown.show();
             loading.hide();
         });
@@ -19,6 +21,8 @@ function parseInterval(value) {
             var selected_user = $("#user_id").val();
             var chart_div = $('#chart_div');
             if(selected_user) {
+                var newImage = users[selected_user]['avatar'];
+                $('#avatar').children('img').attr('src', newImage);
                 loading.show();
                 chart_div.hide();
                 $.getJSON("/api/v1/mean_time_weekday/"+selected_user, function(result) {
