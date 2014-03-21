@@ -18,7 +18,10 @@ from presence_analyzer.main import app
 
 import urllib
 
+import threading
+
 import logging
+
 log = logging.getLogger(__name__)  # pylint: disable-msg=C0103
 
 
@@ -33,6 +36,14 @@ def jsonify(function):
     return inner
 
 
+def cache():
+    """
+    This function blocks get_data if CSV files are the same
+    """
+
+    return 
+
+@cache(600)
 def get_data():
     """
     Extracts presence data from CSV file and groups it by user_id.
