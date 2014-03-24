@@ -46,23 +46,18 @@ def cache(time_in_sek):
     def inner_cache(function):
         lock = threading.Lock()
         function.inner_cache = {}
-
+        @wraps(function)
         def decorator(*args, **kwargs):
             key = repr(args) + repr(kwargs)
             with lock:
                 if key in function.inner_cache:
                     time_result = time.time() - function.inner_cache['time']
-                    if time_result > time_in_sek:
-                        result = function(*args, **kwargs)
-                        function.inner_cache[key] = result
-                        return result
-                    else:
+                    if time_result < time_in_sek:
                         return function.inner_cache[key]
-                else:
-                    result = function(*args, **kwargs)
-                    function.inner_cache[key] = result
-                    function.inner_cache['time'] = time.time()
-                    return result
+                result = function(*args, **kwargs)
+                function.inner_cache[key] = result
+                function.inner_cache['time'] = time.time()
+                return result
 
         return decorator
     return inner_cache
