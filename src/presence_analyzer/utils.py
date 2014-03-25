@@ -41,7 +41,7 @@ def jsonify(function):
 
 def cache(time_in_sek):
     """
-    This function blocks get_data if CSV files are the same
+    Cache for CSV file
     """
     def inner_cache(function):
         lock = threading.Lock()
