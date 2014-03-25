@@ -4,6 +4,7 @@ Helper functions used in views.
 """
 
 import csv
+
 from json import dumps
 
 from functools import wraps
@@ -18,7 +19,12 @@ from presence_analyzer.main import app
 
 import urllib
 
+import threading
+
 import logging
+
+import time
+
 log = logging.getLogger(__name__)  # pylint: disable-msg=C0103
 
 
@@ -33,6 +39,31 @@ def jsonify(function):
     return inner
 
 
+def cache(time_in_sek):
+    """
+    Cache for CSV file
+    """
+    def inner_cache(function):
+        lock = threading.Lock()
+        function.inner_cache = {}
+        @wraps(function)
+        def decorator(*args, **kwargs):
+            key = repr(args) + repr(kwargs)
+            with lock:
+                if key in function.inner_cache:
+                    time_result = time.time() - function.inner_cache['time']
+                    if time_result < time_in_sek:
+                        return function.inner_cache[key]
+                result = function(*args, **kwargs)
+                function.inner_cache[key] = result
+                function.inner_cache['time'] = time.time()
+                return result
+
+        return decorator
+    return inner_cache
+
+
+@cache(600)
 def get_data():
     """
     Extracts presence data from CSV file and groups it by user_id.
