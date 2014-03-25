@@ -46,6 +46,7 @@ def cache(time_in_sek):
     def inner_cache(function):
         lock = threading.Lock()
         function.inner_cache = {}
+
         @wraps(function)
         def decorator(*args, **kwargs):
             key = repr(args) + repr(kwargs)
