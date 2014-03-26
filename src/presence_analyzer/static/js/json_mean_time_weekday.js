@@ -11,7 +11,7 @@ function parseInterval(value) {
         $.getJSON("/api/v2/users", function(result) {
             var dropdown = $("#user_id");
             $.each(result, function(item) {
-                dropdown.append($("<option />").val(item).text(this.name).attr('data-avatar', 'avatarurl'));
+                dropdown.append($("<option />").val(item).text(this.name).attr('data-avatar', this.avatar));
             });
             users = result;
             dropdown.show();
