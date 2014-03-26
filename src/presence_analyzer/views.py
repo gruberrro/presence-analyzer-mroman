@@ -135,83 +135,12 @@ def users_view_names():
     Users listing for dropdown.
     """
     data_xml = utils.get_data_from_xml()
-
-
-#na poczatku bylo to:
-    # {'141': {'avatar': 'https://intranet.stxnext.pl/api/images/users/141',
-    #         'name': 'Adam P.'},
-    # '142': {'avatar': 'https://intranet.stxnext.pl/api/images/users/142',
-    #         'name': u'Micha\u0142 K.'},
-    # '144': {'avatar': 'https://intranet.stxnext.pl/api/images/users/144',
-    #         'name': 'Neysa K.'},
-    # '146': {'avatar': 'https://intranet.stxnext.pl/api/images/users/146',
-    #         'name': 'Waldemar S.'},
-    # '147': {'avatar': 'https://intranet.stxnext.pl/api/images/users/147',
-    #         'name': 'Malwina N.'}}
- 
-
-#wczesniej bylo to:
-    # [
-    #  ('141', {'avatar': 'https://intranet.stxnext.pl/api/images/users/141',
-    #    'name': 'Adam P.'}
-    # ),
-    #  ('176',
-    #   {'avatar': 'https://intranet.stxnext.pl/api/images/users/176',
-    #    'name': 'Adrian K.'}
-    # ),
-    #  ('170',
-    #   {'avatar': 'https://intranet.stxnext.pl/api/images/users/170',
-    #    'name': 'Agata J.'}),
-    #  ('26',
-    #   {'avatar': 'https://intranet.stxnext.pl/api/images/users/26',
-    #    'name': 'Andrzej S.'}),
-    #  ('165',
-    #   {'avatar': 'https://intranet.stxnext.pl/api/images/users/165',
-    #    'name': 'Anna D.'}),
-    #  ('19',
-    #   {'avatar': 'https://intranet.stxnext.pl/api/images/users/19',
-    #    'name': 'Anna K.'})]
-     
-
-#bylo to:
- #    [
- #     {"141": {"name": "Adam P.", 
- #        "avatar": "https://intranet.stxnext.pl/api/images/users/141"}, 
-    
- #     "176": {"name": "Adrian K.", 
- #        "avatar": "https://intranet.stxnext.pl/api/images/users/176"}, 
-
- #     "170": {"name": "Agata J.", 
- #        "avatar": "https://intranet.stxnext.pl/api/images/users/170"}, 
-
- #     "26": {"name": "Andrzej S.", 
- #        "avatar": "https://intranet.stxnext.pl/api/images/users/26"}, 
-
- # # jest:        
- #     [
- #     {"user_id": "141", "name": "Adam P.", 
- #        "avatar": "https://intranet.stxnext.pl/api/images/users/141"}, 
- #     "user_id": "176", "name": "Adrian K.", 
- #        "avatar": "https://intranet.stxnext.pl/api/images/users/176"}, 
- #     "user_id":"170", "name": "Agata J.", 
- #        "avatar": "https://intranet.stxnext.pl/api/images/users/170"}, 
- #     ]
-
     data_xml = sorted(data_xml.items(), key=lambda x: x[1]['name'])
     next_data_xml = [
-            {'user_id' : user[0],
+        {
+            'user_id': user[0],
             'name': user[1]['name'],
             'avatar': user[1]['avatar']
-            }
+        }
         for user in data_xml]
-    
-    # for user in data_xml:
-    #     next_data_xml.append(
-    #         {'user_id' : user[0],
-    #         'name': user[1]['name'],
-    #         'avatar': user[1]['avatar']
-    #         })
-            
-    
     return next_data_xml
-    # return data_xml
