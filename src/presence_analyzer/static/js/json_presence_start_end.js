@@ -7,7 +7,7 @@ google.load("visualization", "1", {packages:["corechart", "timeline"], 'language
         $.getJSON("/api/v2/users", function(result) {
             var dropdown = $("#user_id");
             $.each(result, function(item) {
-                dropdown.append($("<option />").val(item).text(this.name));
+                dropdown.append($("<option />").val(item).text(this.name).attr('data-avatar', this.avatar));
             });
             users = result;
             dropdown.show();
@@ -15,6 +15,7 @@ google.load("visualization", "1", {packages:["corechart", "timeline"], 'language
         });
         $('#user_id').change(function(){
             var selected_user = $("#user_id").val();
+            var avatar = $('#user_id').data('avatar')
             var chart_div = $('#chart_div');
             if(selected_user) {
                 var newImage = users[selected_user]['avatar'];

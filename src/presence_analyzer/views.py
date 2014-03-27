@@ -5,7 +5,7 @@ Defines views.
 import logging
 
 import calendar
-
+from collections import OrderedDict
 from flask import redirect, render_template, redirect, url_for
 
 from presence_analyzer.main import app
@@ -135,4 +135,12 @@ def users_view_names():
     Users listing for dropdown.
     """
     data_xml = utils.get_data_from_xml()
-    return data_xml
+    data_xml = sorted(data_xml.items(), key=lambda x: x[1]['name'])
+    next_data_xml = [
+        {
+            'user_id': user[0],
+            'name': user[1]['name'],
+            'avatar': user[1]['avatar']
+        }
+        for user in data_xml]
+    return next_data_xml
