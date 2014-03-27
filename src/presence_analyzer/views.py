@@ -66,6 +66,7 @@ def mean_time_weekday_view(user_id):
     Returns mean presence time of given user grouped by weekday.
     """
     data = utils.get_data()
+
     if user_id not in data:
         log.debug('User %s not found!', user_id)
         return []
@@ -88,6 +89,7 @@ def presence_weekday_view(user_id):
     Returns total presence time of given user grouped by weekday.
     """
     data = utils.get_data()
+
     if user_id not in data:
         log.debug('User %s not found!', user_id)
         return []
