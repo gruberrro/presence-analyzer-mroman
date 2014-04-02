@@ -3,7 +3,7 @@
 Defines views.
 """
 import logging
-
+import locale
 import calendar
 from collections import OrderedDict
 from flask import redirect, render_template, redirect, url_for
@@ -103,7 +103,6 @@ def presence_weekday_view(user_id):
     result.insert(0, ('Weekday', 'Presence (s)'))
     return result
 
-
 @app.route('/api/v1/presence_start_end/<int:user_id>', methods=['GET'])
 @jsonify
 def presence_start_end_view(user_id):
@@ -135,7 +134,9 @@ def users_view_names():
     Users listing for dropdown.
     """
     data_xml = utils.get_data_from_xml()
-    data_xml = sorted(data_xml.items(), key=lambda x: x[1]['name'])
+    locale.setlocale(locale.LC_ALL, 'pl_PL.UTF-8')
+    data_xml = sorted(data_xml.items(), key=lambda x: x[1]['name'], cmp=locale.strcoll)
+    locale.setlocale(locale.LC_ALL, (None, None))
     next_data_xml = [
         {
             'user_id': user[0],
